@@ -19,6 +19,12 @@ int main(int argc, char **argv) {
   AngleAxisd rotation_vector(M_PI / 4, Vector3d(0, 0, 1));     //沿 Z 轴旋转 45 度
   cout.precision(3);
   cout << "rotation matrix =\n" << rotation_vector.matrix() << endl;   //用matrix()转换成矩阵
+
+  rotation_matrix = rotation_vector.matrix();
+  auto rot_transpose = rotation_matrix.transpose();
+  auto eye = rotation_matrix * rot_transpose;
+  cout << "eye: \n" << eye << endl;
+
   // 也可以直接赋值
   rotation_matrix = rotation_vector.toRotationMatrix();
   // 用 AngleAxis 可以进行坐标变换

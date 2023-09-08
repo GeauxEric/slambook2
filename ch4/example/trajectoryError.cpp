@@ -7,8 +7,8 @@
 using namespace Sophus;
 using namespace std;
 
-string groundtruth_file = "./example/groundtruth.txt";
-string estimated_file = "./example/estimated.txt";
+string groundtruth_file = "/home/yunding/git/slambook2/ch4/example/groundtruth.txt";
+string estimated_file = "/home/yunding/git/slambook2/ch4/example/estimated.txt";
 
 typedef vector<Sophus::SE3d, Eigen::aligned_allocator<Sophus::SE3d>> TrajectoryType;
 
@@ -26,6 +26,11 @@ int main(int argc, char **argv) {
   double rmse = 0;
   for (size_t i = 0; i < estimated.size(); i++) {
     Sophus::SE3d p1 = estimated[i], p2 = groundtruth[i];
+    auto e = p2.inverse() * p1;
+    auto se3d = e.log();
+    auto t = e.translation();
+    cout << "log: \n" << se3d << endl;
+    cout << "translation: \n" << t << endl;
     double error = (p2.inverse() * p1).log().norm();
     rmse += error * error;
   }
